@@ -1,5 +1,6 @@
 校园网态势感知系统-流量分析画像与可视化模块
- 功能特性
+
+<img width="2000" height="1078" alt="image" src="https://github.com/user-attachments/assets/ddf8e304-6eb6-4efb-8e41-9fd084ab261d" />
 
 ✨ 核心功能模块：
 
@@ -20,8 +21,13 @@
 - 用户应用占比饼图
 - 用户协议占比饼图
 - 用户活跃时段柱状图
+<img width="2000" height="897" alt="image" src="https://github.com/user-attachments/assets/4745c735-1fef-4286-a03b-28b67acef7cb" />
+<img width="2000" height="919" alt="image" src="https://github.com/user-attachments/assets/39fd49c5-ffe4-41e8-a8f8-e0a3d8f62536" />
+<img width="2000" height="1012" alt="image" src="https://github.com/user-attachments/assets/a1790299-981d-4c6d-be3b-ca2ff7958af4" />
+<img width="2000" height="993" alt="image" src="https://github.com/user-attachments/assets/580daecd-0639-4c67-bf4f-56b0dae3ba11" />
+<img width="2000" height="591" alt="image" src="https://github.com/user-attachments/assets/a1d1d5f2-d176-4aea-a809-fe75cfee3e3a" />
 
- 项目结构
+项目结构
 
 ```
 流量分析/
@@ -85,7 +91,7 @@ python app.py
 打开浏览器访问：`http://localhost:5000`
 
  3. 首页操作
-
+<img width="1795" height="1123" alt="image" src="https://github.com/user-attachments/assets/f58f2dfb-5fca-4878-bd8f-6e6f5f404280" />
 - **查看当前统计**：首页显示已加载数据的基本统计信息
 - **上传新数据**：通过文件上传表单上传 CSV 文件
 - **查看仪表板**：点击"查看分析仪表板"按钮跳转到详细分析页面
@@ -452,12 +458,8 @@ curl http://localhost:5000/api/user_profiles
 **最后更新**：2025 年 12 月 1 日
 
 **功能展示**
-<img width="1795" height="1123" alt="image" src="https://github.com/user-attachments/assets/f58f2dfb-5fca-4878-bd8f-6e6f5f404280" />
-<img width="2000" height="1078" alt="image" src="https://github.com/user-attachments/assets/ddf8e304-6eb6-4efb-8e41-9fd084ab261d" />
-<img width="2000" height="897" alt="image" src="https://github.com/user-attachments/assets/4745c735-1fef-4286-a03b-28b67acef7cb" />
-<img width="2000" height="919" alt="image" src="https://github.com/user-attachments/assets/39fd49c5-ffe4-41e8-a8f8-e0a3d8f62536" />
-<img width="2000" height="1012" alt="image" src="https://github.com/user-attachments/assets/a1790299-981d-4c6d-be3b-ca2ff7958af4" />
-<img width="2000" height="993" alt="image" src="https://github.com/user-attachments/assets/580daecd-0639-4c67-bf4f-56b0dae3ba11" />
-<img width="2000" height="591" alt="image" src="https://github.com/user-attachments/assets/a1d1d5f2-d176-4aea-a809-fe75cfee3e3a" />
+
+
+
 
 
