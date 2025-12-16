@@ -1,0 +1,1890 @@
+{
+  "student_001": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 1024,
+        "count": 4
+      },
+      "9": {
+        "bytes": 512,
+        "count": 2
+      },
+      "10": {
+        "bytes": 256,
+        "count": 1
+      },
+      "11": {
+        "bytes": 256,
+        "count": 1
+      },
+      "12": {
+        "bytes": 256,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 9,
+      "dns_bytes": 2304
+    },
+    "daily_bytes": {
+      "2025-12-01": 2304
+    }
+  },
+  "student_002": {
+    "tags": [
+      "早起族",
+      "社交达人",
+      "波动用户"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 9216,
+        "count": 2
+      },
+      "9": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 15360
+    }
+  },
+  "student_003": {
+    "tags": [
+      "早起族",
+      "波动用户",
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 9216,
+        "count": 2
+      },
+      "9": {
+        "bytes": 10240,
+        "count": 1
+      },
+      "10": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 27648
+    }
+  },
+  "student_004": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 12288,
+        "count": 2
+      },
+      "9": {
+        "bytes": 5120,
+        "count": 1
+      },
+      "10": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 21504
+    }
+  },
+  "student_005": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 9216,
+        "count": 2
+      },
+      "9": {
+        "bytes": 4096,
+        "count": 1
+      },
+      "10": {
+        "bytes": 3072,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 16384
+    }
+  },
+  "student_006": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 10240,
+        "count": 1
+      },
+      "9": {
+        "bytes": 8192,
+        "count": 1
+      },
+      "10": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 27648
+    }
+  },
+  "student_007": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 2048,
+        "count": 1
+      },
+      "9": {
+        "bytes": 2560,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 4608
+    }
+  },
+  "student_008": {
+    "tags": [
+      "早起族",
+      "波动用户",
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "8": {
+        "bytes": 9216,
+        "count": 1
+      },
+      "9": {
+        "bytes": 7168,
+        "count": 1
+      },
+      "10": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 22528
+    }
+  },
+  "student_009": {
+    "tags": [
+      "早起族"
+    ],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 512,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 512
+    },
+    "daily_bytes": {
+      "2025-12-01": 512
+    }
+  },
+  "student_010": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 12288,
+        "count": 1
+      },
+      "10": {
+        "bytes": 10240,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 22528
+    }
+  },
+  "student_011": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 3072,
+        "count": 1
+      },
+      "10": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_012": {
+    "tags": [
+      "早起族",
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 11264,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 11264
+    }
+  },
+  "student_013": {
+    "tags": [
+      "早起族",
+      "波动用户"
+    ],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 6144,
+        "count": 1
+      },
+      "10": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 11264
+    }
+  },
+  "student_014": {
+    "tags": [
+      "早起族"
+    ],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "9": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_015": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_016": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 384,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 384
+    },
+    "daily_bytes": {
+      "2025-12-01": 384
+    }
+  },
+  "student_017": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_018": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 13312,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 13312
+    }
+  },
+  "student_019": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_020": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "10": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 4096
+    }
+  },
+  "student_021": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_022": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_023": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_024": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 512,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 512
+    },
+    "daily_bytes": {
+      "2025-12-01": 512
+    }
+  },
+  "student_025": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 11264,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 11264
+    }
+  },
+  "student_026": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_027": {
+    "tags": [],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 4096
+    }
+  },
+  "student_028": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 14336,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 14336
+    }
+  },
+  "student_029": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 10240,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 10240
+    }
+  },
+  "student_030": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_031": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_032": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_033": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_034": {
+    "tags": [],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "11": {
+        "bytes": 3072,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 3072
+    }
+  },
+  "student_035": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_036": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_037": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_038": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 384,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 384
+    },
+    "daily_bytes": {
+      "2025-12-01": 384
+    }
+  },
+  "student_039": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_040": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_041": {
+    "tags": [],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 3072,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 3072
+    }
+  },
+  "student_042": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 12288,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 12288
+    }
+  },
+  "student_043": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_044": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_045": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 4096
+    }
+  },
+  "student_046": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_047": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_048": {
+    "tags": [],
+    "category_pct": {
+      "web": 200.0
+    },
+    "active_hours": {
+      "12": {
+        "bytes": 4096,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 4096
+    }
+  },
+  "student_049": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_050": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_051": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_052": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 512,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 512
+    },
+    "daily_bytes": {
+      "2025-12-01": 512
+    }
+  },
+  "student_053": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 10240,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 10240
+    }
+  },
+  "student_054": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "13": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_055": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_056": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_057": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_058": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 512,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 512
+    },
+    "daily_bytes": {
+      "2025-12-01": 512
+    }
+  },
+  "student_059": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 11264,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 11264
+    }
+  },
+  "student_060": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "14": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_061": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_062": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 10240,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 10240
+    }
+  },
+  "student_063": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_064": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 384,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 384
+    },
+    "daily_bytes": {
+      "2025-12-01": 384
+    }
+  },
+  "student_065": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_066": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "15": {
+        "bytes": 5120,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 5120
+    }
+  },
+  "student_067": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_068": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 11264,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 11264
+    }
+  },
+  "student_069": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 7168,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 7168
+    }
+  },
+  "student_070": {
+    "tags": [],
+    "category_pct": {
+      "dns": 100.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 512,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "UDP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 1,
+      "dns_bytes": 512
+    },
+    "daily_bytes": {
+      "2025-12-01": 512
+    }
+  },
+  "student_071": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 12288,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 12288
+    }
+  },
+  "student_072": {
+    "tags": [],
+    "category_pct": {
+      "web": 100.0
+    },
+    "active_hours": {
+      "16": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  },
+  "student_073": {
+    "tags": [
+      "社交达人"
+    ],
+    "category_pct": {
+      "social": 200.0
+    },
+    "active_hours": {
+      "17": {
+        "bytes": 8192,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 8192
+    }
+  },
+  "student_074": {
+    "tags": [
+      "视频大户"
+    ],
+    "category_pct": {
+      "video": 300.0
+    },
+    "active_hours": {
+      "17": {
+        "bytes": 9216,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 9216
+    }
+  },
+  "student_075": {
+    "tags": [],
+    "category_pct": {
+      "others": 100.0
+    },
+    "active_hours": {
+      "17": {
+        "bytes": 6144,
+        "count": 1
+      }
+    },
+    "protocol_ratio": {
+      "TCP": 100.0
+    },
+    "port_stats": {},
+    "dns_stats": {
+      "dns_queries": 0,
+      "dns_bytes": 0
+    },
+    "daily_bytes": {
+      "2025-12-01": 6144
+    }
+  }
+}
