@@ -20,3 +20,4 @@ generate_commits.py
 .directory
 Thumbs.db
 *.log
+*.tmp
