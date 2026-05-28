@@ -16,3 +16,4 @@ generate_commits.py
 # IDE metadata
 .idea/
 .vscode/
+*~
