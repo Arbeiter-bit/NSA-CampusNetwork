@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园网态势感知 · 实时大屏</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #020617;
+            --panel: rgba(15, 23, 42, 0.82);
+            --panel-strong: rgba(15, 23, 42, 0.96);
+            --border: rgba(148, 163, 184, 0.18);
+            --border-hot: rgba(248, 113, 113, 0.45);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --subtle: #64748b;
+            --green: #22c55e;
+            --cyan: #38bdf8;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --violet: #8b5cf6;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; min-height: 100vh; color: var(--text);
+            font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 18% 10%, rgba(56, 189, 248, 0.14), transparent 28%),
+                radial-gradient(circle at 82% 0%, rgba(239, 68, 68, 0.14), transparent 26%),
+                linear-gradient(180deg, #020617 0%, #050816 42%, #08111f 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+        body::before {
+            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 10;
+            background-image: linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+            background-size: 100% 4px; opacity: 0.22;
+        }
+        body::after {
+            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+        }
+
+        .shell { width: min(1600px, calc(100vw - 40px)); margin: 0 auto; padding: 22px 0 40px; }
+
+        /* ---------- topbar ---------- */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 18px; padding: 16px 20px; margin-bottom: 18px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: rgba(2, 6, 23, 0.72);
+            backdrop-filter: blur(16px);
+        }
+        .brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+        .brand-mark {
+            width: 38px; height: 38px;
+            border: 1px solid rgba(56, 189, 248, 0.42); border-radius: 8px;
+            background:
+                linear-gradient(90deg, transparent 44%, rgba(56, 189, 248, 0.9) 44% 56%, transparent 56%),
+                linear-gradient(0deg, transparent 44%, rgba(34, 197, 94, 0.9) 44% 56%, transparent 56%),
+                rgba(15, 23, 42, 0.88);
+            box-shadow: 0 0 28px rgba(56, 189, 248, 0.18);
+        }
+        .brand-text h1 { margin: 0; font-size: 20px; letter-spacing: 0.2px; }
+        .brand-text p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+
+        .controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .label {
+            color: var(--muted); font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+        }
+        .input {
+            min-height: 36px; padding: 0 12px; width: 84px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(2, 6, 23, 0.7); color: var(--text);
+            font-size: 13px; font-family: "SFMono-Regular", Consolas, monospace;
+        }
+        .input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.16); }
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            min-height: 36px; padding: 0 14px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(15, 23, 42, 0.78); color: var(--text);
+            font-size: 13px; font-weight: 700; cursor: pointer;
+            transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+        }
+        .btn:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.55); }
+        .btn.primary {
+            border-color: rgba(34, 197, 94, 0.55);
+            background: rgba(34, 197, 94, 0.18);
+            color: #d1fae5;
+        }
+        .btn.primary:hover { background: rgba(34, 197, 94, 0.3); border-color: rgba(34, 197, 94, 0.85); }
+        .btn.danger {
+            border-color: rgba(239, 68, 68, 0.55);
+            background: rgba(239, 68, 68, 0.18);
+            color: #fecaca;
+        }
+        .btn.danger:hover { background: rgba(239, 68, 68, 0.32); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        a.nav-link {
+            display: inline-flex; align-items: center;
+            min-height: 36px; padding: 0 12px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(15, 23, 42, 0.78); color: var(--text);
+            font-size: 13px; text-decoration: none;
+        }
+        a.nav-link:hover { border-color: rgba(56, 189, 248, 0.55); color: var(--cyan); }
+
+        .status-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            min-height: 36px; padding: 0 14px;
+            border: 1px solid var(--border); border-radius: 999px;
+            background: rgba(15, 23, 42, 0.78);
+            font-size: 13px; font-weight: 600;
+        }
+        .status-pill .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--muted);
+        }
+        .status-pill.running .dot {
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+            animation: pulseDot 1.6s ease-in-out infinite;
+        }
+        .status-pill.stopped .dot {
+            background: var(--red);
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+        }
+
+        /* ---------- KPI ---------- */
+        .kpi-row {
+            display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 14px; margin-bottom: 18px;
+        }
+        .kpi {
+            position: relative; overflow: hidden;
+            padding: 18px 20px; min-height: 120px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: var(--panel);
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+        }
+        .kpi::before {
+            content: ""; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: var(--cyan);
+        }
+        .kpi.cyan::before { background: var(--cyan); }
+        .kpi.green::before { background: var(--green); }
+        .kpi.violet::before { background: var(--violet); }
+        .kpi.amber::before { background: var(--amber); }
+        .kpi.red::before { background: var(--red); }
+        .kpi .name {
+            color: var(--muted); font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+        }
+        .kpi .value {
+            margin-top: 12px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: clamp(24px, 2.4vw, 32px); font-weight: 800; line-height: 1.1;
+        }
+        .kpi.cyan .value { color: var(--text); text-shadow: 0 0 18px rgba(56, 189, 248, 0.35); }
+        .kpi.green .value { color: var(--text); text-shadow: 0 0 18px rgba(34, 197, 94, 0.35); }
+        .kpi.violet .value { color: var(--text); text-shadow: 0 0 18px rgba(139, 92, 246, 0.4); }
+        .kpi.amber .value { color: var(--text); text-shadow: 0 0 18px rgba(245, 158, 11, 0.4); }
+        .kpi.red .value { color: var(--red); text-shadow: 0 0 22px rgba(239, 68, 68, 0.45); }
+
+        /* ---------- panels ---------- */
+        .grid {
+            display: grid; gap: 18px;
+            grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        }
+        .panel {
+            position: relative;
+            padding: 18px 20px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: var(--panel);
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+        }
+        .panel-head {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; margin-bottom: 14px;
+        }
+        .panel h3 {
+            margin: 0; font-size: 13px; font-weight: 700;
+            letter-spacing: 0.16em; text-transform: uppercase; color: var(--text);
+        }
+        .panel-tag {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--muted);
+            padding: 3px 8px; border-radius: 4px;
+            border: 1px solid var(--border); background: rgba(2, 6, 23, 0.5);
+        }
+        .panel-tag.live { color: var(--green); border-color: rgba(34, 197, 94, 0.4); }
+
+        #trafficChart { height: 280px !important; }
+
+        /* ---------- table ---------- */
+        .table-wrap {
+            max-height: 360px; overflow-y: auto;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(2, 6, 23, 0.4);
+        }
+        .table-wrap::-webkit-scrollbar { width: 6px; }
+        .table-wrap::-webkit-scrollbar-track { background: transparent; }
+        .table-wrap::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 3px; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td {
+            padding: 9px 12px; text-align: left;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+        }
+        th {
+            position: sticky; top: 0; z-index: 2;
+            background: rgba(2, 6, 23, 0.92);
+            color: var(--muted); font-weight: 700;
+            font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        }
+        td {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            color: var(--text);
+        }
+        td.num { text-align: right; color: var(--cyan); }
+        tbody tr { transition: background 120ms ease; }
+        tbody tr:hover { background: rgba(56, 189, 248, 0.06); }
+        tbody tr:first-child td { animation: rowEnter 360ms ease; }
+
+        tr.alert-high td:first-child { box-shadow: inset 3px 0 0 var(--red); }
+        tr.alert-medium td:first-child { box-shadow: inset 3px 0 0 var(--amber); }
+        tr.alert-low td:first-child { box-shadow: inset 3px 0 0 var(--green); }
+
+        /* ---------- alert list ---------- */
+        .alert-list {
+            display: flex; flex-direction: column; gap: 10px;
+            max-height: 360px; overflow-y: auto; padding-right: 4px;
+        }
+        .alert-list::-webkit-scrollbar { width: 6px; }
+        .alert-list::-webkit-scrollbar-track { background: transparent; }
+        .alert-list::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 3px; }
+
+        .alert-item {
+            position: relative;
+            padding: 12px 14px 12px 16px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(2, 6, 23, 0.55);
+            font-size: 13px;
+            transition: transform 150ms ease, border-color 150ms ease;
+            animation: alertEnter 360ms ease;
+        }
+        .alert-item:hover { transform: translateX(2px); }
+        .alert-item::before {
+            content: ""; position: absolute;
+            top: 8px; bottom: 8px; left: 0; width: 3px; border-radius: 2px;
+        }
+        .alert-item.high::before { background: var(--red); box-shadow: 0 0 10px var(--red); }
+        .alert-item.medium::before { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+        .alert-item.low::before { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .alert-item.high { border-color: rgba(239, 68, 68, 0.35); }
+        .alert-item.medium { border-color: rgba(245, 158, 11, 0.32); }
+
+        .alert-title {
+            font-weight: 700; font-size: 13px; color: var(--text);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .alert-title::after {
+            content: attr(data-level);
+            font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+            padding: 2px 7px; border-radius: 3px;
+        }
+        .alert-item.high .alert-title::after { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .alert-item.medium .alert-title::after { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
+        .alert-item.low .alert-title::after { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+        .alert-meta {
+            color: var(--muted); font-size: 11px; margin-top: 4px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+        }
+        .alert-detail {
+            color: var(--text); font-size: 12px; margin-top: 6px; line-height: 1.5;
+        }
+
+        /* ---------- ML panel ---------- */
+        #mlBox { font-size: 12px; color: var(--muted); }
+        .ml-summary {
+            color: var(--muted); font-size: 12px; margin-bottom: 10px;
+            padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(2, 6, 23, 0.4);
+        }
+        .ml-summary strong { color: var(--cyan); font-family: "SFMono-Regular", Consolas, monospace; }
+        .ml-empty {
+            padding: 24px 16px; text-align: center;
+            color: var(--muted); font-size: 13px;
+            border: 1px dashed var(--border); border-radius: 6px;
+        }
+        .severity-badge {
+            display: inline-flex; align-items: center;
+            padding: 2px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+        }
+        .severity-badge.critical, .severity-badge.high { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .severity-badge.medium { background: rgba(245, 158, 11, 0.2); color: var(--amber); }
+        .severity-badge.low { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+
+        .empty-state {
+            padding: 28px 12px; text-align: center;
+            color: var(--muted); font-size: 13px;
+        }
+        .empty-state::before {
+            content: ""; display: block;
+            width: 32px; height: 32px; margin: 0 auto 12px;
+            border: 1px dashed var(--border); border-radius: 8px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12), transparent 70%);
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.45; }
+        }
+        @keyframes rowEnter {
+            from { background: rgba(56, 189, 248, 0.18); }
+            to { background: transparent; }
+        }
+        @keyframes alertEnter {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+        @media (max-width: 1100px) {
+            .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <div class="topbar">
+        <div class="brand">
+            <div class="brand-mark"></div>
+            <div class="brand-text">
+                <h1>实时态势感知大屏</h1>
+                <p>SSE Streaming · IsolationForest Scoring · Rule-based Alerts</p>
+            </div>
+        </div>
+        <div class="controls">
+            <span class="status-pill stopped" id="statusPill"><span class="dot"></span><span id="statusText">未启动</span></span>
+            <span class="label">速率</span>
+            <input id="rateInput" type="number" class="input" min="0.5" max="50" step="0.5" value="5">
+            <button class="btn" id="applyRateBtn" title="运行中可即时调整速率">应用</button>
+            <button class="btn primary" id="startBtn">▶ 启动回放</button>
+            <button class="btn danger" id="stopBtn" disabled>■ 停止</button>
+            <a class="nav-link" href="/dashboard">← 返回仪表板</a>
+        </div>
+    </div>
+
+    <div class="kpi-row">
+        <div class="kpi cyan"><div class="name">Sent Events</div><div class="value" id="kpiEvents">0</div></div>
+        <div class="kpi green"><div class="name">Total Bytes</div><div class="value" id="kpiBytes">0 B</div></div>
+        <div class="kpi violet"><div class="name">Active Users</div><div class="value" id="kpiUsers">0</div></div>
+        <div class="kpi amber"><div class="name">Source IPs</div><div class="value" id="kpiIps">0</div></div>
+        <div class="kpi red"><div class="name">Live Alerts</div><div class="value" id="kpiAlerts">0</div></div>
+    </div>
+
+    <div class="grid">
+        <div class="panel">
+            <div class="panel-head">
+                <h3>实时流量曲线 / 5秒聚合</h3>
+                <span class="panel-tag live">● LIVE</span>
+            </div>
+            <canvas id="trafficChart"></canvas>
+        </div>
+        <div class="panel">
+            <div class="panel-head">
+                <h3>实时告警流</h3>
+                <span class="panel-tag">RULE ENGINE</span>
+            </div>
+            <div class="alert-list" id="alertList">
+                <div class="empty-state">等待启动回放…</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid" style="margin-top: 18px;">
+        <div class="panel">
+            <div class="panel-head">
+                <h3>最近事件流 · 最新 30 条</h3>
+                <span class="panel-tag">EVENT BUS</span>
+            </div>
+            <div class="table-wrap">
+                <table id="eventTable">
+                    <thead>
+                    <tr>
+                        <th>时间</th><th>用户</th><th>源 IP</th><th>目的 IP:端口</th><th>协议</th><th>类别</th><th class="num">字节</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-head">
+                <h3>ML 异常用户排行</h3>
+                <span class="panel-tag">ISOLATION FOREST</span>
+            </div>
+            <div id="mlBox">
+                <div class="ml-empty">加载中…</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(() => {
+    const el = id => document.getElementById(id);
+    const fmtBytes = n => {
+        n = Number(n) || 0;
+        if (n < 1024) return n + ' B';
+        if (n < 1048576) return (n / 1024).toFixed(2) + ' KB';
+        if (n < 1073741824) return (n / 1048576).toFixed(2) + ' MB';
+        return (n / 1073741824).toFixed(2) + ' GB';
+    };
+    const fmtTime = ts => {
+        const d = new Date(ts * 1000);
+        return d.toLocaleTimeString('zh-CN', { hour12: false });
+    };
+
+    // ---- chart -----------------------------------------------------
+    const ctx = el('trafficChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+    gradient.addColorStop(0, 'rgba(56,189,248,0.32)');
+    gradient.addColorStop(1, 'rgba(56,189,248,0.02)');
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [{
+            label: 'bytes/bucket',
+            data: [],
+            borderColor: '#38bdf8',
+            backgroundColor: gradient,
+            borderWidth: 2,
+            tension: 0.35,
+            fill: true,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHoverBackgroundColor: '#38bdf8',
+        }]},
+        options: {
+            responsive: true, maintainAspectRatio: false, animation: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(2,6,23,0.95)',
+                    borderColor: 'rgba(56,189,248,0.4)', borderWidth: 1,
+                    padding: 10, titleColor: '#f8fafc', bodyColor: '#94a3b8',
+                },
+            },
+            scales: {
+                x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(148,163,184,0.04)' } },
+                y: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(148,163,184,0.06)' } },
+            },
+        },
+    });
+
+    function applyBuckets(buckets) {
+        chart.data.labels = buckets.map(b => fmtTime(b.ts));
+        chart.data.datasets[0].data = buckets.map(b => b.bytes);
+        chart.update('none');
+    }
+
+    // ---- KPI / status ---------------------------------------------
+    function applyMetrics(s) {
+        if (!s) return;
+        const m = s.metrics || {};
+        el('kpiEvents').textContent = m.sent_events || 0;
+        el('kpiBytes').textContent = fmtBytes(m.total_bytes || 0);
+        el('kpiUsers').textContent = m.unique_users || 0;
+        el('kpiIps').textContent = m.unique_src_ips || 0;
+        el('kpiAlerts').textContent = m.alerts_triggered || 0;
+        applyBuckets(s.traffic_buckets || []);
+        const pill = el('statusPill');
+        pill.classList.remove('running', 'stopped');
+        pill.classList.add(s.running ? 'running' : 'stopped');
+        el('statusText').textContent = s.running ? `运行中 · ${s.rate}/s` : '已停止';
+        el('startBtn').disabled = !!s.running;
+        el('stopBtn').disabled = !s.running;
+    }
+
+    // ---- event table ----------------------------------------------
+    const tbody = el('eventTable').querySelector('tbody');
+    function appendEvent(ev) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${fmtTime(ev.ts)}</td>
+            <td>${ev.user}</td>
+            <td>${ev.src_ip}</td>
+            <td>${ev.dst_ip}:${ev.dst_port}</td>
+            <td>${ev.protocol}</td>
+            <td>${ev.app_category}</td>
+            <td class="num">${ev.bytes}</td>
+        `;
+        tbody.prepend(tr);
+        while (tbody.children.length > 30) tbody.removeChild(tbody.lastChild);
+    }
+
+    // ---- alerts ----------------------------------------------------
+    const alertList = el('alertList');
+    let alertCleared = false;
+    function appendAlert(a) {
+        if (!alertCleared) { alertList.innerHTML = ''; alertCleared = true; }
+        const div = document.createElement('div');
+        div.className = `alert-item ${a.level}`;
+        div.innerHTML = `
+            <div class="alert-title" data-level="${a.level}">${a.title}</div>
+            <div class="alert-meta">${fmtTime(a.ts)} · ${a.entity}</div>
+            <div class="alert-detail">${a.detail}</div>
+        `;
+        alertList.prepend(div);
+        while (alertList.children.length > 50) alertList.removeChild(alertList.lastChild);
+    }
+
+    // ---- ML panel --------------------------------------------------
+    function renderML(report) {
+        const box = el('mlBox');
+        if (!report || !report.anomalies || !report.anomalies.length) {
+            const msg = report?.message || '当前样本未发现异常用户';
+            box.innerHTML = `<div class="ml-empty">${msg}<br><span style="opacity: 0.6;">模型: ${report?.model || '未运行'}</span></div>`;
+            return;
+        }
+        const rows = report.anomalies.map((a, idx) => `
+            <tr class="alert-${a.severity === 'critical' || a.severity === 'high' ? 'high' : 'medium'}">
+                <td>${idx + 1}</td>
+                <td><strong style="color: var(--text);">${a.user}</strong></td>
+                <td class="num">${a.anomaly_score.toFixed(1)}</td>
+                <td><span class="severity-badge ${a.severity}">${a.severity}</span></td>
+                <td style="color: var(--muted); font-size: 11px;">${(a.evidence || []).join(' · ')}</td>
+            </tr>
+        `).join('');
+        box.innerHTML = `
+            <div class="ml-summary">
+                共 <strong>${report.summary.total_users}</strong> 用户 ·
+                <strong>${report.summary.anomaly_users}</strong> 个异常 ·
+                contamination=<strong>${report.config.contamination}</strong>
+            </div>
+            <div class="table-wrap" style="max-height: 300px;">
+                <table>
+                    <thead><tr><th>#</th><th>用户</th><th class="num">分数</th><th>等级</th><th>关键证据</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    // ---- SSE -------------------------------------------------------
+    let evtSource = null;
+    function connectSSE() {
+        if (evtSource) evtSource.close();
+        evtSource = new EventSource('/api/realtime/stream');
+        evtSource.addEventListener('snapshot', e => {
+            const s = JSON.parse(e.data);
+            applyMetrics(s);
+            (s.recent_events || []).slice(-20).forEach(appendEvent);
+        });
+        evtSource.addEventListener('event', e => appendEvent(JSON.parse(e.data)));
+        evtSource.addEventListener('metrics', e => applyMetrics(JSON.parse(e.data)));
+        evtSource.addEventListener('alert', e => appendAlert(JSON.parse(e.data)));
+        evtSource.addEventListener('finished', () => {
+            const pill = el('statusPill');
+            pill.classList.remove('running');
+            pill.classList.add('stopped');
+            el('statusText').textContent = '已结束';
+            el('startBtn').disabled = false;
+            el('stopBtn').disabled = true;
+        });
+        evtSource.onerror = () => {};
+    }
+
+    // ---- controls --------------------------------------------------
+    el('startBtn').onclick = async () => {
+        const rate = parseFloat(el('rateInput').value) || 5;
+        await fetch('/api/realtime/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ rate, loop: true }),
+        });
+    };
+    el('stopBtn').onclick = async () => {
+        await fetch('/api/realtime/stop', { method: 'POST' });
+    };
+    el('applyRateBtn').onclick = async () => {
+        const rate = parseFloat(el('rateInput').value) || 5;
+        const btn = el('applyRateBtn');
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = '已应用';
+        try {
+            await fetch('/api/realtime/rate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ rate }),
+            });
+        } finally {
+            setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 800);
+        }
+    };
+
+    // ---- init ------------------------------------------------------
+    fetch('/api/realtime/status').then(r => r.json()).then(applyMetrics);
+    fetch('/api/ml_anomaly').then(r => r.json()).then(renderML);
+    connectSSE();
+})();
+</script>
+</body>
+</html>
+

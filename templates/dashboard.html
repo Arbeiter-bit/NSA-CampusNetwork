@@ -495,8 +495,19 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             background: rgba(2, 6, 23, 0.38);
+            color: var(--text);
+            font-family: inherit;
+            text-align: left;
             cursor: pointer;
             transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+        }
+
+        .user-card strong {
+            display: block;
+            color: var(--text);
+            font-size: 14px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            letter-spacing: 0.04em;
         }
 
         .user-card:hover {
@@ -581,6 +592,7 @@
             </div>
             <div class="nav-actions">
                 <span class="status-chip" id="data-status">正在加载数据</span>
+                <a class="nav-link" href="/realtime">实时大屏</a>
                 <a class="nav-link" href="/">返回首页</a>
             </div>
         </header>
@@ -728,6 +740,39 @@
         </section>
 
         <section class="section-title">
+            <h2>ML 异常用户检测</h2>
+            <span>IsolationForest 无监督模型，10 维行为特征，自动评分</span>
+        </section>
+
+        <section class="panel">
+            <div id="ml-summary" class="mini-list" style="margin-bottom: 12px;">
+                <div class="mini-item"><span>模型</span><strong id="ml-model">--</strong></div>
+                <div class="mini-item"><span>用户总数</span><strong id="ml-total">--</strong></div>
+                <div class="mini-item"><span>异常用户</span><strong id="ml-anomaly-count">--</strong></div>
+                <div class="mini-item"><span>污染率</span><strong id="ml-contamination">--</strong></div>
+                <div class="mini-item"><span>最高分</span><strong id="ml-max-score">--</strong></div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>用户</th>
+                            <th>异常分数</th>
+                            <th>等级</th>
+                            <th>关键证据</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ml-anomaly-tbody">
+                        <tr><td colspan="5" class="loading">正在加载...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn" id="ml-refresh-btn" type="button" style="margin-top: 12px;">重新跑 ML 检测</button>
+            <p class="metric-note" id="ml-refresh-note" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="section-title">
             <h2>用户画像</h2>
             <span>点击用户卡片查看协议、应用和活跃时段</span>
         </section>
@@ -832,7 +877,37 @@
 
             renderBlockList(security.blocked_entities || []);
             renderActiveHours(data.active_hours || []);
+            renderMLAnomaly(data.ml_anomaly || {});
             renderCharts(data);
+        }
+
+        function renderMLAnomaly(report) {
+            const summary = report.summary || {};
+            const config = report.config || {};
+            setText('ml-model', report.model || '未运行');
+            setText('ml-total', summary.total_users ?? '--');
+            setText('ml-anomaly-count', summary.anomaly_users ?? '--');
+            setText('ml-contamination', config.contamination ?? '--');
+            setText('ml-max-score', summary.max_score ?? '--');
+
+            const tbody = document.getElementById('ml-anomaly-tbody');
+            const anomalies = report.anomalies || [];
+            if (!anomalies.length) {
+                const msg = report.status === 'skipped'
+                    ? (report.message || '未运行 ML 检测')
+                    : '当前样本未发现异常用户';
+                tbody.innerHTML = `<tr><td colspan="5" class="table-empty">${msg}</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = anomalies.map((a, idx) => `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td><strong>${a.user}</strong></td>
+                    <td>${(a.anomaly_score || 0).toFixed(1)}</td>
+                    <td><span class="risk-badge ${a.severity}">${a.severity}</span></td>
+                    <td>${(a.evidence || []).join(' · ')}</td>
+                </tr>
+            `).join('');
         }
 
         function renderBlockList(items) {
@@ -1073,6 +1148,28 @@
         }
 
         document.getElementById('deepseek-review-btn').addEventListener('click', runDeepSeekReview);
+
+        async function refreshMLAnomaly() {
+            const btn = document.getElementById('ml-refresh-btn');
+            const note = document.getElementById('ml-refresh-note');
+            btn.disabled = true;
+            const original = btn.textContent;
+            btn.textContent = '正在重新计算...';
+            note.textContent = '';
+            try {
+                const resp = await fetch('/api/ml_anomaly/refresh', { method: 'POST' });
+                const report = await resp.json();
+                renderMLAnomaly(report);
+                note.textContent = `已重新计算：异常用户 ${report.summary?.anomaly_users ?? 0} 个`;
+            } catch (e) {
+                note.textContent = `刷新失败：${e}`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = original;
+            }
+        }
+        document.getElementById('ml-refresh-btn').addEventListener('click', refreshMLAnomaly);
+
         document.addEventListener('DOMContentLoaded', () => {
             loadDashboardData();
             loadUserProfiles();
