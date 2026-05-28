@@ -12,3 +12,7 @@ instance/
 
 # Commit generator script
 generate_commits.py
+
+# IDE metadata
+.idea/
+.vscode/
