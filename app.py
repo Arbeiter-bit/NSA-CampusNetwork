@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash, Response, stream_with_context
 from werkzeug.utils import secure_filename
 from pathlib import Path
 import os
@@ -8,6 +8,8 @@ import threading
 from utils.analysis import TrafficAnalyzer, generate_all_charts
 from utils.user_profile import UserProfileAnalyzer
 from utils.ai_security import AISecurityAnalyzer
+from utils.ml_anomaly import detect_anomalies
+from utils.realtime import ReplayEngine, stream_events
 
 app = Flask(__name__)
 
@@ -42,14 +44,16 @@ class AnalyzerState:
         self.charts_html = {}
         self.user_profiles = {}
         self.ai_security_report = {}
+        self.ml_anomaly_report = {}
 
-    def replace(self, analyzer, user_profile_analyzer, charts_html, user_profiles, ai_security_report):
+    def replace(self, analyzer, user_profile_analyzer, charts_html, user_profiles, ai_security_report, ml_anomaly_report):
         with self._lock:
             self.analyzer = analyzer
             self.user_profile_analyzer = user_profile_analyzer
             self.charts_html = charts_html
             self.user_profiles = user_profiles
             self.ai_security_report = ai_security_report
+            self.ml_anomaly_report = ml_anomaly_report
 
     def snapshot(self):
         """返回当前状态的快照，调用方拿到的引用之后即使被替换也不影响本次响应。"""
@@ -60,11 +64,16 @@ class AnalyzerState:
                 'charts_html': self.charts_html,
                 'user_profiles': self.user_profiles,
                 'ai_security_report': self.ai_security_report,
+                'ml_anomaly_report': self.ml_anomaly_report,
             }
 
     def update_security_report(self, report):
         with self._lock:
             self.ai_security_report = report
+
+    def update_ml_report(self, report):
+        with self._lock:
+            self.ml_anomaly_report = report
 
 
 state = AnalyzerState()
@@ -99,6 +108,7 @@ def load_analyzer(csv_file=None):
         user_profile_analyzer.save_profiles(str(profiles_path))
 
         ai_security_report = AISecurityAnalyzer(analyzer.df).generate_report(include_deepseek=False)
+        ml_anomaly_report = detect_anomalies(analyzer.df)
 
         state.replace(
             analyzer=analyzer,
@@ -106,8 +116,11 @@ def load_analyzer(csv_file=None):
             charts_html=charts_html,
             user_profiles=user_profiles,
             ai_security_report=ai_security_report,
+            ml_anomaly_report=ml_anomaly_report,
         )
-        logger.info('分析器加载成功: %s 条记录, %s 个用户', len(analyzer.df), analyzer.df['user'].nunique())
+        logger.info('分析器加载成功: %s 条记录, %s 个用户, %s 个 ML 异常用户',
+                    len(analyzer.df), analyzer.df['user'].nunique(),
+                    ml_anomaly_report.get('summary', {}).get('anomaly_users', 0))
         return True, None
     except Exception as exc:
         logger.exception('分析器加载失败')
@@ -147,6 +160,7 @@ def dashboard():
                           app_category=app_category,
                           active_hours=active_hours,
                           ai_security=snap['ai_security_report'],
+                          ml_anomaly=snap['ml_anomaly_report'],
                           attack_map=attack_map)
 
 
@@ -242,7 +256,8 @@ def api_dashboard_data():
         'app_category': analyzer.get_app_category_traffic(),
         'active_hours': analyzer.get_active_hours(),
         'attack_map': _attack_map_stats(analyzer, security_report),
-        'ai_security': security_report
+        'ai_security': security_report,
+        'ml_anomaly': snap['ml_anomaly_report'] or detect_anomalies(analyzer.df),
     })
 
 
@@ -292,6 +307,101 @@ def api_ai_security_deepseek():
     report = AISecurityAnalyzer(analyzer.df).generate_report(include_deepseek=True)
     state.update_security_report(report)
     return jsonify(report)
+
+
+@app.route('/api/ml_anomaly')
+def api_ml_anomaly():
+    """API 接口 - 返回 IsolationForest 异常用户检测结果"""
+    snap = state.snapshot()
+    analyzer = snap['analyzer']
+    if not analyzer:
+        return jsonify({'error': 'no_data', 'message': '请先上传 CSV 流量数据。'}), 404
+
+    report = snap['ml_anomaly_report']
+    if not report:
+        report = detect_anomalies(analyzer.df)
+        state.update_ml_report(report)
+    return jsonify(report)
+
+
+@app.route('/api/ml_anomaly/refresh', methods=['POST'])
+def api_ml_anomaly_refresh():
+    """API 接口 - 强制重跑 ML 检测"""
+    snap = state.snapshot()
+    analyzer = snap['analyzer']
+    if not analyzer:
+        return jsonify({'error': 'no_data', 'message': '请先上传 CSV 流量数据。'}), 404
+    report = detect_anomalies(analyzer.df)
+    state.update_ml_report(report)
+    return jsonify(report)
+
+
+@app.route('/realtime')
+def realtime_view():
+    """实时态势感知大屏页面"""
+    snap = state.snapshot()
+    if not snap['analyzer']:
+        flash('请先上传 CSV 流量数据再进入实时大屏。', 'warning')
+        return redirect(url_for('index'))
+    return render_template('realtime.html')
+
+
+@app.route('/api/realtime/start', methods=['POST'])
+def api_realtime_start():
+    """启动流量回放"""
+    snap = state.snapshot()
+    analyzer = snap['analyzer']
+    if not analyzer:
+        return jsonify({'error': 'no_data', 'message': '请先上传 CSV 流量数据。'}), 404
+
+    payload = request.get_json(silent=True) or {}
+    rate = float(payload.get('rate', request.args.get('rate', 5.0)))
+    loop = bool(payload.get('loop', request.args.get('loop', 'true').lower() != 'false'))
+    result = ReplayEngine.instance().start(analyzer.df, rate=rate, loop=loop)
+    return jsonify(result)
+
+
+@app.route('/api/realtime/stop', methods=['POST'])
+def api_realtime_stop():
+    """停止流量回放"""
+    return jsonify(ReplayEngine.instance().stop())
+
+
+@app.route('/api/realtime/rate', methods=['POST'])
+def api_realtime_rate():
+    """运行中调整回放速率"""
+    payload = request.get_json(silent=True) or {}
+    try:
+        rate = float(payload.get('rate', request.args.get('rate', 5.0)))
+    except (TypeError, ValueError):
+        return jsonify({'status': 'error', 'message': '速率参数无效'}), 400
+    return jsonify(ReplayEngine.instance().set_rate(rate))
+
+
+@app.route('/api/realtime/status')
+def api_realtime_status():
+    """查询回放状态与最新指标"""
+    return jsonify(ReplayEngine.instance().status())
+
+
+@app.route('/api/realtime/stream')
+def api_realtime_stream():
+    """SSE 事件流：连接后会持续收到 event/metrics/alert/snapshot/finished 五种消息。"""
+    stop_event = threading.Event()
+
+    @stream_with_context
+    def generate():
+        try:
+            for chunk in stream_events(stop_event):
+                yield chunk
+        except GeneratorExit:
+            stop_event.set()
+            raise
+
+    response = Response(generate(), mimetype='text/event-stream')
+    response.headers['Cache-Control'] = 'no-cache'
+    response.headers['X-Accel-Buffering'] = 'no'
+    return response
 
 
 @app.template_filter('format_bytes')
