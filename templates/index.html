@@ -3,211 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>校园网流量分析 - 首页</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>校园网态势感知 · 控制台入口</title>
     <style>
+        :root {
+            --bg: #020617;
+            --panel: rgba(15, 23, 42, 0.82);
+            --panel-strong: rgba(15, 23, 42, 0.96);
+            --border: rgba(148, 163, 184, 0.18);
+            --border-strong: rgba(148, 163, 184, 0.32);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --subtle: #64748b;
+            --green: #22c55e;
+            --cyan: #38bdf8;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --violet: #8b5cf6;
+        }
+        * { box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
             min-height: 100vh;
-            padding: 20px 0;
+            color: var(--text);
+            font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 18% 10%, rgba(56, 189, 248, 0.14), transparent 28%),
+                radial-gradient(circle at 82% 0%, rgba(139, 92, 246, 0.14), transparent 26%),
+                linear-gradient(180deg, #020617 0%, #050816 42%, #08111f 100%);
+            -webkit-font-smoothing: antialiased;
         }
-        .main-container {
-            max-width: 1000px;
-            margin: 0 auto;
+        body::before {
+            content: "";
+            position: fixed; inset: 0; pointer-events: none; z-index: 10;
+            background-image: linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+            background-size: 100% 4px;
+            opacity: 0.22;
         }
-        .hero-section {
-            background: white;
-            border-radius: 15px;
-            padding: 60px 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
+        body::after {
+            content: "";
+            position: fixed; inset: 0; pointer-events: none; z-index: -1;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
         }
-        .hero-section h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: bold;
+
+        .shell { width: min(1200px, calc(100vw - 40px)); margin: 0 auto; padding: 22px 0 36px; }
+
+        /* ---------- top bar ---------- */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 18px; padding: 16px 20px; margin-bottom: 22px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: rgba(2, 6, 23, 0.72);
+            backdrop-filter: blur(16px);
         }
-        .hero-section p {
-            color: #666;
-            font-size: 16px;
-            margin-bottom: 30px;
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-mark {
+            width: 38px; height: 38px;
+            border: 1px solid rgba(56, 189, 248, 0.42); border-radius: 8px;
+            background:
+                linear-gradient(90deg, transparent 44%, rgba(56, 189, 248, 0.9) 44% 56%, transparent 56%),
+                linear-gradient(0deg, transparent 44%, rgba(34, 197, 94, 0.9) 44% 56%, transparent 56%),
+                rgba(15, 23, 42, 0.88);
+            box-shadow: 0 0 28px rgba(56, 189, 248, 0.18);
         }
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .brand-text h1 { margin: 0; font-size: 20px; letter-spacing: 0.2px; }
+        .brand-text p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+
+        .status-chip {
+            display: inline-flex; align-items: center;
+            min-height: 36px; padding: 0 14px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(15, 23, 42, 0.78);
+            font-size: 13px; color: var(--text);
         }
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
+        .status-chip::before {
+            content: ""; width: 8px; height: 8px; margin-right: 8px;
+            border-radius: 50%; background: var(--green);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.85);
         }
-        .stat-card .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #667eea;
+        .status-chip.idle::before {
+            background: var(--amber); box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
         }
-        .stat-card .stat-label {
-            color: #999;
-            font-size: 14px;
+        .status-chip strong { color: var(--cyan); margin-left: 4px; }
+
+        /* ---------- hero ---------- */
+        .hero {
+            position: relative; overflow: hidden;
+            display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+            gap: 24px; padding: 32px 36px;
+            border: 1px solid var(--border); border-radius: 10px;
+            background:
+                radial-gradient(circle at 88% 20%, rgba(56, 189, 248, 0.18), transparent 38%),
+                radial-gradient(circle at 12% 100%, rgba(139, 92, 246, 0.18), transparent 36%),
+                rgba(2, 6, 23, 0.84);
+            margin-bottom: 18px;
+            box-shadow: 0 22px 52px rgba(0, 0, 0, 0.32);
+        }
+        .hero::after {
+            content: ""; position: absolute; inset: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+            background-size: 36px 36px;
+            mask-image: radial-gradient(circle at 80% 0%, black, transparent 70%);
+        }
+        .hero > * { position: relative; z-index: 1; }
+        .eyebrow {
+            color: var(--muted); font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+        }
+        .hero h2 {
+            margin: 10px 0 14px;
+            font-size: clamp(26px, 3.2vw, 40px);
+            font-weight: 800; letter-spacing: -0.5px; line-height: 1.15;
+        }
+        .hero h2 .accent {
+            background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7;
+            max-width: 560px;
+        }
+        .hero-cta {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            min-height: 40px; padding: 0 18px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(15, 23, 42, 0.8); color: var(--text);
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            text-decoration: none; transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+        }
+        .btn:hover { transform: translateY(-1px); border-color: rgba(56, 189, 248, 0.55); }
+        .btn.primary {
+            border-color: rgba(56, 189, 248, 0.6);
+            background: rgba(56, 189, 248, 0.16);
+            box-shadow: 0 0 24px rgba(56, 189, 248, 0.18);
+        }
+        .btn.primary:hover { background: rgba(56, 189, 248, 0.28); }
+        .btn.violet {
+            border-color: rgba(139, 92, 246, 0.55);
+            background: rgba(139, 92, 246, 0.14);
+        }
+        .btn.violet:hover { background: rgba(139, 92, 246, 0.26); }
+
+        .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(2, 6, 23, 0.6);
+            color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+        }
+        .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .badge.cyan .dot { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+        .badge.green .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .badge.violet .dot { background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+        /* ---------- side console (right side of hero) ---------- */
+        .console-card {
+            position: relative; overflow: hidden;
+            padding: 18px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: rgba(2, 6, 23, 0.7);
+        }
+        .console-card h4 {
+            margin: 0 0 12px; font-size: 12px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+        }
+        .console-line {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 12px; margin-top: 8px;
+            border: 1px solid var(--border); border-radius: 6px;
+            background: rgba(15, 23, 42, 0.55);
+            font-size: 12px;
+        }
+        .console-line .k { color: var(--muted); letter-spacing: 0.04em; }
+        .console-line .v {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 14px; font-weight: 700; color: var(--cyan);
+        }
+        .console-line.ok .v { color: var(--green); }
+        .console-line.amber .v { color: var(--amber); }
+        .console-line.violet .v { color: var(--violet); }
+
+        /* ---------- KPI strip ---------- */
+        .kpi-strip {
+            display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px; margin-bottom: 22px;
+        }
+        .kpi {
+            position: relative; overflow: hidden;
+            padding: 18px; min-height: 124px;
+            border: 1px solid var(--border); border-radius: 8px;
+            background: var(--panel);
+            box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+            border-left: 3px solid var(--cyan);
+        }
+        .kpi:nth-child(2) { border-left-color: var(--green); }
+        .kpi:nth-child(3) { border-left-color: var(--amber); }
+        .kpi:nth-child(4) { border-left-color: var(--violet); }
+        .kpi .label {
+            color: var(--muted); font-size: 12px; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase;
+        }
+        .kpi .value {
             margin-top: 10px;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; line-height: 1.1;
         }
-        .upload-section {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .kpi .note { margin-top: 8px; color: var(--subtle); font-size: 12px; }
+
+        /* ---------- upload card ---------- */
+        .upload-card {
+            padding: 26px;
+            border: 1px solid var(--border); border-radius: 10px;
+            background: var(--panel);
+            box-shadow: 0 22px 52px rgba(0, 0, 0, 0.3);
         }
-        .upload-section h3 {
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: bold;
+        .upload-card h3 { margin: 0 0 6px; font-size: 18px; font-weight: 700; }
+        .upload-card .sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+
+        .dropzone {
+            display: block; width: 100%;
+            position: relative;
+            padding: 40px 24px;
+            border: 2px dashed rgba(56, 189, 248, 0.35); border-radius: 10px;
+            background:
+                radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.08), transparent 60%),
+                rgba(2, 6, 23, 0.45);
+            text-align: center; cursor: pointer;
+            transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
         }
-        .upload-area {
-            border: 2px dashed #667eea;
-            border-radius: 10px;
-            padding: 40px;
-            text-align: center;
-            background: #f8f9ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .dropzone:hover {
+            border-color: rgba(56, 189, 248, 0.7);
+            background:
+                radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.14), transparent 60%),
+                rgba(2, 6, 23, 0.55);
+            transform: translateY(-1px);
         }
-        .upload-area:hover {
-            border-color: #764ba2;
-            background: #f0f2ff;
+        .dropzone input[type="file"] { display: none; }
+        .dropzone .icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 56px; height: 56px; margin-bottom: 14px;
+            border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 12px;
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 24px rgba(56, 189, 248, 0.18);
         }
-        .upload-area input[type="file"] {
-            display: none;
+        .dropzone .icon svg { width: 24px; height: 24px; stroke: var(--cyan); }
+        .dropzone .title { color: var(--text); font-size: 15px; font-weight: 700; }
+        .dropzone .hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+        .schema {
+            margin-top: 18px; padding: 14px;
+            border: 1px dashed var(--border); border-radius: 6px;
+            background: rgba(2, 6, 23, 0.4);
+            color: var(--muted); font-size: 12px; line-height: 1.7;
         }
-        .upload-area .upload-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
+        .schema code {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            color: var(--cyan); font-size: 12px;
         }
-        .upload-area .upload-text {
-            color: #666;
-            font-size: 16px;
+
+        /* ---------- flash ---------- */
+        .flash {
+            margin-bottom: 18px;
+            padding: 12px 16px;
+            border: 1px solid var(--border); border-left: 3px solid var(--cyan);
+            border-radius: 6px;
+            background: rgba(2, 6, 23, 0.6);
+            font-size: 13px;
         }
-        .btn-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin-top: 20px;
+        .flash.success { border-left-color: var(--green); }
+        .flash.danger { border-left-color: var(--red); }
+        .flash.warning { border-left-color: var(--amber); }
+
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; padding: 24px; }
+            .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            color: white;
-        }
-        .btn-dashboard {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            color: white;
-            padding: 12px 40px;
-            border-radius: 25px;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .btn-dashboard:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            color: white;
-            text-decoration: none;
-        }
-        .info-text {
-            color: #666;
-            font-size: 14px;
-            margin-top: 10px;
+        @media (max-width: 560px) {
+            .kpi-strip { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div style="margin-bottom: 16px;">
-                    {% for category, msg in messages %}
-                        <div class="alert alert-{{ 'danger' if category == 'danger' else ('success' if category == 'success' else ('warning' if category == 'warning' else 'info')) }}" role="alert" style="border-radius: 10px;">
-                            {{ msg }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
-        <!-- 顶部导航 -->
-        <nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background: transparent;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/" style="font-weight: bold; font-size: 20px;">
-                    🌐 校园网流量分析系统
-                </a>
-                {% if total_traffic %}
-                <div class="navbar-text text-white" style="font-size: 14px;">
-                    已加载数据 | 用户数: <strong>{{ total_traffic.unique_users }}</strong>
-                </div>
-                {% endif %}
-            </div>
-        </nav>
+<div class="shell">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, msg in messages %}
+                <div class="flash {{ category }}" role="alert">{{ msg }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-        <!-- 英雄区 -->
-        <div class="hero-section">
-            <h1>📊 校园网流量分析与可视化</h1>
-            <p>上传您的网络流量数据进行深度分析和实时可视化</p>
-            
-            {% if total_traffic %}
-            <div class="stats-cards">
-                <div class="stat-card">
-                    <div class="stat-value">{{ total_traffic.unique_users }}</div>
-                    <div class="stat-label">活跃用户</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ total_traffic.total_packets }}</div>
-                    <div class="stat-label">流量包</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ total_traffic.total_bytes | format_bytes }}</div>
-                    <div class="stat-label">总流量</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ total_traffic.unique_ips }}</div>
-                    <div class="stat-label">IP 数量</div>
-                </div>
-            </div>
-            <a href="/dashboard" class="btn-dashboard">📈 查看分析仪表板</a>
-            {% endif %}
-        </div>
-
-        <!-- 文件上传区 -->
-        <div class="upload-section">
-            <h3>📁 上传流量数据</h3>
-            <form method="POST" action="/upload" enctype="multipart/form-data">
-                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                    <input type="file" id="fileInput" name="file" accept=".csv" onchange="this.form.submit()">
-                    <div class="upload-icon">📤</div>
-                    <div class="upload-text">
-                        <strong>点击上传或拖放文件</strong>
-                        <div class="info-text" style="margin-top: 10px;">
-                            仅支持 CSV 格式，最大文件大小 50MB
-                        </div>
-                    </div>
-                </div>
-            </form>
-            
-            <div class="info-text" style="margin-top: 20px;">
-                <strong>CSV 文件格式要求：</strong><br>
-                timestamp (YYYY-MM-DD HH:MM:SS) | src_ip | dst_ip | src_port | dst_port | protocol | bytes | app_category | user
+    <div class="topbar">
+        <div class="brand">
+            <div class="brand-mark"></div>
+            <div class="brand-text">
+                <h1>校园网态势感知</h1>
+                <p>Campus Network Situation Awareness · Console</p>
             </div>
         </div>
+        {% if total_traffic %}
+        <div class="status-chip">
+            系统在线 · 已建档实体 <strong>{{ total_traffic.unique_users }}</strong>
+        </div>
+        {% else %}
+        <div class="status-chip idle">
+            等待数据接入
+        </div>
+        {% endif %}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <section class="hero">
+        <div>
+            <div class="eyebrow">Threat Intelligence Console / v2.0</div>
+            <h2>实时分析校园网流量，<br><span class="accent">识别隐藏的安全威胁</span></h2>
+            <p>
+                上传 CSV 流量样本即可启动多维分析：基于规则的端口扫描与敏感服务识别、
+                IsolationForest 无监督异常评分、SSE 实时态势大屏、用户画像与拦截建议。
+                整套流水线在本地完成，可选 DeepSeek 远程复核。
+            </p>
+            <div class="hero-cta">
+                {% if total_traffic %}
+                <a href="/dashboard" class="btn primary">
+                    进入安全仪表板
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <a href="/realtime" class="btn violet">
+                    实时态势大屏
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8S2 12 2 12z"/></svg>
+                </a>
+                {% else %}
+                <span class="btn" style="cursor: default; opacity: 0.7;">下方上传 CSV 后解锁全部模块</span>
+                {% endif %}
+            </div>
+            <div class="badge-row">
+                <span class="badge cyan"><span class="dot"></span>规则引擎</span>
+                <span class="badge violet"><span class="dot"></span>IsolationForest</span>
+                <span class="badge green"><span class="dot"></span>SSE 实时推送</span>
+                <span class="badge cyan"><span class="dot"></span>DeepSeek 复核</span>
+            </div>
+        </div>
+
+        <aside class="console-card">
+            <h4>System Status</h4>
+            {% if total_traffic %}
+            <div class="console-line ok"><span class="k">DATA PIPELINE</span><span class="v">ONLINE</span></div>
+            <div class="console-line"><span class="k">IDENTIFIED ENTITIES</span><span class="v">{{ total_traffic.unique_users }}</span></div>
+            <div class="console-line"><span class="k">SESSION PACKETS</span><span class="v">{{ total_traffic.total_packets }}</span></div>
+            <div class="console-line amber"><span class="k">GROSS VOLUME</span><span class="v">{{ total_traffic.total_bytes | format_bytes }}</span></div>
+            <div class="console-line violet"><span class="k">UNIQUE IPS</span><span class="v">{{ total_traffic.unique_ips }}</span></div>
+            {% else %}
+            <div class="console-line"><span class="k">DATA PIPELINE</span><span class="v" style="color: var(--amber);">STANDBY</span></div>
+            <div class="console-line"><span class="k">RULE ENGINE</span><span class="v" style="color: var(--green);">READY</span></div>
+            <div class="console-line"><span class="k">ML MODEL</span><span class="v" style="color: var(--green);">READY</span></div>
+            <div class="console-line"><span class="k">SSE BUS</span><span class="v" style="color: var(--green);">READY</span></div>
+            <div class="console-line"><span class="k">UPLOAD</span><span class="v" style="color: var(--cyan);">REQUIRED</span></div>
+            {% endif %}
+        </aside>
+    </section>
+
+    {% if total_traffic %}
+    <section class="kpi-strip">
+        <div class="kpi">
+            <div class="label">Identified Entities</div>
+            <div class="value">{{ total_traffic.unique_users }}</div>
+            <div class="note">按 user 字段去重</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Session Packets</div>
+            <div class="value">{{ total_traffic.total_packets }}</div>
+            <div class="note">CSV 总记录数</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Gross Volume</div>
+            <div class="value">{{ total_traffic.total_bytes | format_bytes }}</div>
+            <div class="note">bytes 字段汇总</div>
+        </div>
+        <div class="kpi">
+            <div class="label">Unique IPs</div>
+            <div class="value">{{ total_traffic.unique_ips }}</div>
+            <div class="note">源 IP + 目标 IP</div>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="upload-card">
+        <h3>{% if total_traffic %}更新流量样本{% else %}导入流量样本{% endif %}</h3>
+        <div class="sub">支持 CSV 格式，单次最大 50 MB。上传后自动重新分析并刷新所有面板。</div>
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <label class="dropzone" for="fileInput">
+                <input type="file" id="fileInput" name="file" accept=".csv" onchange="this.form.submit()">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </div>
+                <div class="title">点击选择 CSV 文件 / 或拖放到此处</div>
+                <div class="hint">仅支持 CSV · 最大 50MB · 上传后自动覆盖当前样本</div>
+            </label>
+        </form>
+        <div class="schema">
+            <strong style="color: var(--text);">CSV 列要求</strong>
+            <code>timestamp · src_ip · dst_ip · src_port · dst_port · protocol · bytes · app_category · user</code>
+        </div>
+    </section>
+</div>
 </body>
 </html>
+
+
