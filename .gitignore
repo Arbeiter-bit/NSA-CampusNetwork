@@ -18,3 +18,4 @@ generate_commits.py
 .vscode/
 *~
 .directory
+Thumbs.db
