@@ -21,3 +21,4 @@ generate_commits.py
 Thumbs.db
 *.log
 *.tmp
+.project
