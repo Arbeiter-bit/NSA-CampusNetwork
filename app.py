@@ -147,6 +147,7 @@ def upload():
         return redirect(url_for('index'))
     
     if not allowed_file(file.filename):
+        # 仅接受 CSV 文件，其他类型返回错误提示
         return redirect(url_for('index'))
     
     try:
