@@ -24,12 +24,18 @@ SENSITIVE_PORTS = {
     445: "SMB",
     1433: "SQL Server",
     1521: "Oracle",
+    2375: "Docker API",
+    2379: "etcd",
+    2380: "etcd Peer",
     3306: "MySQL",
     3389: "RDP",
+    4848: "GlassFish Admin",
     5432: "PostgreSQL",
     5900: "VNC",
     6379: "Redis",
+    6443: "Kubernetes API",
     9200: "Elasticsearch",
+    10250: "Kubelet",
     27017: "MongoDB",
 }
 
