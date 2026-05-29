@@ -37,7 +37,7 @@ class TrafficAnalyzer:
             "unique_ips": self.df['src_ip'].nunique() + self.df['dst_ip'].nunique()
         }
     
-    def get_user_traffic_ranking(self, top_n=10):
+    def get_user_traffic_ranking(self, top_n=15):
         """获取用户流量排名"""
         if self.df is None or len(self.df) == 0:
             return []
