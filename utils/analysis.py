@@ -73,7 +73,11 @@ class TrafficAnalyzer:
         return result
     
     def get_active_hours(self):
-        """获取活跃时段分析（按小时的用户活跃度）"""
+        """获取活跃时段分析（按小时的用户活跃度）
+        
+        Returns:
+            list[dict]: 包含 hour, active_users, total_bytes, packet_count 字段的列表
+        """
         if self.df is None or len(self.df) == 0:
             return []
         
