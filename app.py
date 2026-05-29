@@ -429,4 +429,7 @@ if __name__ == '__main__':
     if not ok:
         logger.warning('启动时未加载默认数据: %s', err)
 
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    # 通过环境变量 FLASK_DEBUG 控制调试模式，生产环境请设为 false（默认关闭）
+    # 本地开发：export FLASK_DEBUG=true && python app.py
+    debug_mode = os.environ.get('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5001)
