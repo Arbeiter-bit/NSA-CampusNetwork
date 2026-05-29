@@ -45,7 +45,8 @@ class UserProfileAnalyzer:
             self.df = pd.read_csv(self.csv_path)
             self.df['timestamp'] = pd.to_datetime(self.df['timestamp'])
             self.df['hour'] = self.df['timestamp'].dt.hour
-            self.df['date'] = self.df['timestamp'].dt.date
+            # 转为字符串格式，避免 Python date 对象在 JSON 序列化时抛出 TypeError
+            self.df['date'] = self.df['timestamp'].dt.strftime('%Y-%m-%d')
             return True
         except Exception as e:
             print(f"数据加载失败: {e}")
