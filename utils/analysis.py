@@ -129,7 +129,8 @@ def generate_traffic_trend_chart(analyzer):
         yaxis_title='流量 (MB)',
         hovermode='x unified',
         template='plotly_white',
-        height=400
+        height=400,
+        showlegend=True
     )
     
     return fig.to_html(div_id="traffic_trend_chart", include_plotlyjs=False)
