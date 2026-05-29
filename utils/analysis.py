@@ -30,11 +30,14 @@ class TrafficAnalyzer:
         if self.df is None or len(self.df) == 0:
             return {"total_bytes": 0, "total_packets": 0, "unique_users": 0}
         
+        total_bytes = int(self.df['bytes'].sum())
+        total_packets = len(self.df)
         return {
-            "total_bytes": int(self.df['bytes'].sum()),
-            "total_packets": len(self.df),
+            "total_bytes": total_bytes,
+            "total_packets": total_packets,
             "unique_users": self.df['user'].nunique(),
-            "unique_ips": self.df['src_ip'].nunique() + self.df['dst_ip'].nunique()
+            "unique_ips": self.df['src_ip'].nunique() + self.df['dst_ip'].nunique(),
+            "avg_bytes_per_packet": round(total_bytes / total_packets, 2) if total_packets > 0 else 0
         }
     
     def get_user_traffic_ranking(self, top_n=10):
