@@ -171,7 +171,9 @@ def api_stats():
     if not analyzer:
         return jsonify({})
     
+    from datetime import datetime
     return jsonify({
+        'server_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'total_traffic': analyzer.get_total_traffic(),
         'user_ranking': analyzer.get_user_traffic_ranking(),
         'app_category': analyzer.get_app_category_traffic(),
