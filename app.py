@@ -406,15 +406,17 @@ def api_realtime_stream():
 
 @app.template_filter('format_bytes')
 def format_bytes(bytes_val):
-    """格式化字节数"""
+    """格式化字节数为人类可读格式，支持 B / KB / MB / GB / TB"""
     if bytes_val < 1024:
         return f"{bytes_val} B"
     elif bytes_val < 1024 ** 2:
         return f"{bytes_val / 1024:.2f} KB"
     elif bytes_val < 1024 ** 3:
         return f"{bytes_val / (1024 ** 2):.2f} MB"
-    else:
+    elif bytes_val < 1024 ** 4:
         return f"{bytes_val / (1024 ** 3):.2f} GB"
+    else:
+        return f"{bytes_val / (1024 ** 4):.2f} TB"
 
 
 @app.errorhandler(413)
