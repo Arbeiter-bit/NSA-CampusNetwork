@@ -12,7 +12,9 @@ app = Flask(__name__)
 # 配置
 UPLOAD_FOLDER = Path(__file__).parent / 'data'
 ALLOWED_EXTENSIONS = {'csv'}
-MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50MB
+# 支持通过环境变量 MAX_UPLOAD_MB 配置上传限制，默认 50MB
+MAX_UPLOAD_MB = int(os.environ.get('MAX_UPLOAD_MB', 50))
+MAX_CONTENT_LENGTH = MAX_UPLOAD_MB * 1024 * 1024
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
