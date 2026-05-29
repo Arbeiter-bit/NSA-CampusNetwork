@@ -9,6 +9,7 @@ from utils.ai_security import AISecurityAnalyzer
 
 app = Flask(__name__)
 
+# 注意: 当前未启用 CORS，如需前后端分离部署请使用 flask-cors 扩展
 # 配置
 UPLOAD_FOLDER = Path(__file__).parent / 'data'
 ALLOWED_EXTENSIONS = {'csv'}
