@@ -69,7 +69,9 @@ class TrafficAnalyzer:
         
         result = []
         for timestamp, bytes_val in trend.items():
-            result.append({"time": str(timestamp), "bytes": int(bytes_val)})
+            # resample 在无数据的时间槽会产生 NaN，需安全转换为 0
+            safe_bytes = 0 if pd.isna(bytes_val) else int(bytes_val)
+            result.append({"time": str(timestamp), "bytes": safe_bytes})
         return result
     
     def get_active_hours(self):
