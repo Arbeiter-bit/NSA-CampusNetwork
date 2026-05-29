@@ -10,5 +10,12 @@ env/
 .mypy_cache/
 instance/
 
+# IDE / Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
 # Commit generator script
 generate_commits.py
