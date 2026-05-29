@@ -65,7 +65,7 @@ class TrafficAnalyzer:
         if unit == 'hour':
             trend = self.df.set_index('timestamp').resample('h')['bytes'].sum()
         else:
-            trend = self.df.set_index('timestamp').resample('5T')['bytes'].sum()
+            trend = self.df.set_index('timestamp').resample('5min')['bytes'].sum()
         
         result = []
         for timestamp, bytes_val in trend.items():
