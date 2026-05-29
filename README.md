@@ -496,3 +496,14 @@ curl http://localhost:5001/api/user_profiles
 
 
 
+
+## 快速 API 参考
+
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/stats` | GET | 返回流量统计摘要 |
+| `/api/dashboard_data` | GET | 返回仪表板完整数据 |
+| `/api/user_profiles` | GET | 返回用户画像数据 |
+| `/api/ai_security` | GET | 返回 AI 安全审查报告 |
+| `/api/ai_security/deepseek` | POST | 触发 DeepSeek 复核 |
+| `/health` | GET | 服务健康检查 |
