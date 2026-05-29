@@ -256,6 +256,16 @@ def format_bytes(bytes_val):
         return f"{bytes_val / (1024 ** 3):.2f} GB"
 
 
+@app.route('/health')
+def health_check():
+    """健康检查端点 - 用于监控服务存活状态"""
+    return jsonify({
+        'status': 'ok',
+        'analyzer_loaded': analyzer is not None,
+        'data_ready': len(charts_html) > 0
+    })
+
+
 @app.errorhandler(413)
 def request_entity_too_large(error):
     """处理文件过大错误"""
