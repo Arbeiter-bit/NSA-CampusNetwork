@@ -110,7 +110,8 @@ def generate_traffic_trend_chart(analyzer):
         return "<p>暂无数据</p>"
     
     times = [item['time'] for item in trend_data]
-    bytes_vals = [item['bytes'] / (1024**2) for item in trend_data]  # 转换为 MB
+    # 将字节转换为 MB 以提高可读性（1 MB = 1024^2 bytes）
+    bytes_vals = [item['bytes'] / (1024**2) for item in trend_data]
     
     fig = go.Figure(data=[
         go.Scatter(
