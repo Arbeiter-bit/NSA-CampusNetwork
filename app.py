@@ -80,7 +80,9 @@ state = AnalyzerState()
 
 
 def allowed_file(filename):
-    """检查文件是否允许"""
+    """检查文件扩展名是否在白名单中，filename 为 None 或空时返回 False"""
+    if not filename:
+        return False
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
