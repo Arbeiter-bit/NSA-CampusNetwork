@@ -266,5 +266,6 @@ if __name__ == '__main__':
     # 启动时加载默认分析器
     load_analyzer()
     
-    # 启动 Flask 应用
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    # 启动 Flask 应用（通过 DEBUG 环境变量控制调试模式，生产环境应设为 false）
+    debug_mode = os.environ.get('DEBUG', 'true').lower() == 'true'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5001)
