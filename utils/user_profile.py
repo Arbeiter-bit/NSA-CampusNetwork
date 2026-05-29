@@ -228,7 +228,8 @@ class UserProfileAnalyzer:
         if night_ratio > 60:
             tags.append('异常活跃时间')
         
-        return list(set(tags))  # 去重
+        # 用 dict.fromkeys 去重并保留插入顺序，避免 set() 导致标签顺序随机
+        return list(dict.fromkeys(tags))
     
     def _get_variance_threshold(self):
         """计算所有用户每小时流量方差的中位数，作为规律/波动判定阈值（懒加载缓存）"""
