@@ -174,7 +174,7 @@ def generate_user_ranking_chart(analyzer):
             y=users,
             x=bytes_vals,
             orientation='h',
-            marker=dict(color='#ff7f0e'),
+            marker=dict(color='#4c8eda'),
             hovertemplate='<b>%{y}</b><br>流量: %{x:.2f} MB<extra></extra>'
         )
     ])
