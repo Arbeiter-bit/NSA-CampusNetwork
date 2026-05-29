@@ -1,5 +1,5 @@
-Flask==2.3.2
-Werkzeug==2.3.6
+Flask==2.3.2  # Web 框架
+Werkzeug==2.3.6  # Flask 底层工具库
 numpy<2
-pandas==2.0.3
-plotly==5.15.0
+pandas==2.0.3  # 数据处理与分析
+plotly==5.15.0  # 交互式图表生成
