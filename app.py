@@ -62,6 +62,7 @@ def load_analyzer(csv_file=None):
         # 生成本地 AI 安全审查报告。DeepSeek 复核由接口按需触发，避免启动时阻塞。
         ai_security_report = AISecurityAnalyzer(analyzer.df).generate_report(include_deepseek=False)
         
+        print(f"[OK] 数据加载完成，共 {len(analyzer.df)} 条记录，{len(user_profiles)} 个用户画像")
         return True
     except Exception as e:
         print(f"分析器加载失败: {e}")
