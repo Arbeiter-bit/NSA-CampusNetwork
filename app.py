@@ -252,8 +252,10 @@ def format_bytes(bytes_val):
         return f"{bytes_val / 1024:.2f} KB"
     elif bytes_val < 1024 ** 3:
         return f"{bytes_val / (1024 ** 2):.2f} MB"
-    else:
+    elif bytes_val < 1024 ** 4:
         return f"{bytes_val / (1024 ** 3):.2f} GB"
+    else:
+        return f"{bytes_val / (1024 ** 4):.2f} TB"
 
 
 @app.errorhandler(413)
