@@ -1,6 +1,6 @@
 pytest>=7.0
 pytest-cov>=4.0
-flake8>=7.0
+flake8>=7.3.0
 black>=24.0
 isort>=5.13
 pre-commit>=3.0
