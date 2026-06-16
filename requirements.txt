@@ -1,5 +1,5 @@
 Flask==2.3.2
-Werkzeug==2.3.6
+Werkzeug==3.1.8
 numpy<2
 pandas==2.0.3
 plotly==5.15.0
